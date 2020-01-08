@@ -12,7 +12,7 @@ Installing the app will automatically insert Liquid, CSS, and JavaScript files i
 
 There will be a step during the onboarding process when selecting between the widget and the custom integration. Select custom integration. This will halt your progress through the onboarding. This is to avoid the merchant being charged before their integration is completed and the app functional.
 
-**_Note_ you will need to request complete access to the app** to subscribe and begin awarding customers loyalty points once the integration is completed by emailing team@lunaris.jp.
+**_Note_ you will need to request complete access to the app** to subscribe and begin awarding customers loyalty points once the integration is completed by emailing: team@lunaris.jp.
 
 ## Liquid Integration
 
@@ -53,11 +53,33 @@ This function will also call `pointRedemptionValidation` and depending upon the 
 ```html
 <label for="points_redeemed">Points:</label>
 <input name="points_redeemed" id="shown-point-value" />
-<button type="button" id="points-button">Redeem</button>
+<button type="button" id="redeem-points-button">Redeem</button>
 ```
 
 ```javascript
-$("#points-button").on("click", function() {
+$("#redeem-points-button").on("click", function() {
+  submitRedemptionForm();
+});
+```
+
+#### Reset form submission
+
+To reset a redemption and cancel a coupon, the following function can be used.
+
+```javascript
+submitResetForm();
+```
+
+Similar to form submission, this function should just be called by a user action such that their coupon is canceled.
+
+###### Example
+
+```html
+<button type="button" id="reset-coupon-button">Reset</button>
+```
+
+```javascript
+$("#reset-coupon-button").on("click", function() {
   submitRedemptionForm();
 });
 ```
@@ -126,6 +148,7 @@ These are suggestions for content that your custom EasyPoints integration may wa
 -   Currently applied discount
 -   Cart point value (before and after discount)
 -   Redemption form (redemption input, redemption button, max redeemable points)
+-   Reset form (locked redemption input, reset button)
 
 ## Troubleshooting
 
