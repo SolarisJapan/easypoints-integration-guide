@@ -2,13 +2,13 @@
 
 ## App Setup
 
-#### Install the EasyPoints app
+### Install the EasyPoints app
 
 The EasyPoints app can be found on the Shopify app store here: <https://apps.shopify.com/easy-points>
 
 Installing the app will automatically insert Liquid, CSS, and JavaScript files into the theme which can be used to aid in the integration. Not all of the files need to be used.
 
-#### Select custom integration
+### Select custom integration
 
 There will be a step during the onboarding process when selecting between the widget and the custom integration. Select custom integration. This will halt your progress through the onboarding. This is to avoid the merchant being charged before their integration is completed and the app functional.
 
@@ -16,7 +16,7 @@ There will be a step during the onboarding process when selecting between the wi
 
 ## Liquid Integration
 
-#### Automatically Uploaded Files
+### Automatically Uploaded Files
 
 **_Note_ that the automatically uploaded theme snippet files should be left unaltered**, as files could be automatically re-uploaded by the app or patched for content in the future. For this reason it is strongly advised that custom integrations create new files that override the content of these default files and only call their functions without changing the functions themselves. Breaking changes to JavaScript functions would not occur without notification.
 
@@ -28,7 +28,7 @@ List of automatically uploaded files:
 -   snippets/easy_points.liquid
 -   snippets/easy_points_widget.liquid
 
-#### Load EasyPoints redemption form liquid
+### Load EasyPoints redemption form liquid
 
 Ensure that the content within "snippets/redemption_form.liquid" is loaded.
 
@@ -38,7 +38,7 @@ Ensure that the content within "snippets/redemption_form.liquid" is loaded.
 
 **_Note_ this snippet should be included outside \<form\> elements** as it contains \<input\> elements which could cause complications with forms. These inputs are hidden when given the above options. This is the recommended setup. The contents of the snippet can be turned into a form and submitted via JavaScript (see the example below).
 
-#### Redemption form submission
+### Redemption form submission
 
 The recommended method of submission is to create an \<input\> element with the id `shown-point-value`. The value field of this element should be input by the user as the number of points they wish to redeem. A function to update the virtual form included in the previous step and submit is found in "assets/easy_points.js".
 
@@ -62,7 +62,7 @@ $("#redeem-points-button").on("click", function() {
 });
 ```
 
-#### Reset form submission
+### Reset form submission
 
 To reset a redemption and cancel a coupon, the following function can be used.
 
@@ -88,7 +88,7 @@ $("#reset-coupon-button").on("click", function() {
 
 These are useful code segments for integrating with the EasyPoints JavaScript and script tags. Typically content within any spans will be overwritten, so the inside values should be viewed as defaults / placeholders.
 
-#### Applied discount
+### Applied discount
 
 Include anywhere that should display the currently applied discount.
 
@@ -96,7 +96,7 @@ Include anywhere that should display the currently applied discount.
 <span data-loyal-target="applied-discount">0</span>
 ```
 
-#### Point balance
+### Point balance
 
 Include anywhere that should display the user's current point balance.
 
@@ -104,7 +104,7 @@ Include anywhere that should display the user's current point balance.
 <span data-loyal-target="balance">-</span>
 ```
 
-#### Item point value
+### Item point value
 
 Include anywhere that should display the point value of an item / product / variant. Insert the correct liquid variable as the value for `data-loyal-currency-cost`. Only the inner span's contents are overwritten.
 
@@ -114,7 +114,7 @@ Include anywhere that should display the point value of an item / product / vari
 </span>
 ```
 
-#### Stealth mode filter
+### Stealth mode filter
 
 Include anywhere that contains content which should be hidden when the app is in stealth mode.
 
