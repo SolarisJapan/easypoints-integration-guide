@@ -84,7 +84,6 @@ $("#reset-coupon-button").on("click", function() {
 });
 ```
 
-![](https://p53.f0.n0.cdn.getcloudapp.com/items/GGuAEz7K/Screen+Recording+2020-01-08+at+03.31+PM.gif?v=ac5529168c4e6bb0d5ac17154672c86b)
 ## Snippets
 
 These are useful code segments for integrating with the EasyPoints JavaScript and script tags. Typically content within any spans will be overwritten, so the inside values should be viewed as defaults / placeholders.
