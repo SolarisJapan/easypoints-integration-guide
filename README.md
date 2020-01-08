@@ -66,7 +66,7 @@ $("#points-button").on("click", function() {
 
 These are useful code segments for integrating with the EasyPoints JavaScript and script tags. Typically content within any spans will be overwritten, so the inside values should be viewed as defaults / placeholders.
 
-##### Applied discount
+#### Applied discount
 
 Include anywhere that should display the currently applied discount.
 
@@ -74,7 +74,7 @@ Include anywhere that should display the currently applied discount.
 <span data-loyal-target="applied-discount">0</span>
 ```
 
-##### Point balance
+#### Point balance
 
 Include anywhere that should display the user's current point balance.
 
@@ -82,7 +82,7 @@ Include anywhere that should display the user's current point balance.
 <span data-loyal-target="balance">-</span>
 ```
 
-##### Item point value
+#### Item point value
 
 Include anywhere that should display the point value of an item / product / variant. Insert the correct liquid variable as the value for `data-loyal-currency-cost`. Only the inner span's contents are overwritten.
 
@@ -92,7 +92,7 @@ Include anywhere that should display the point value of an item / product / vari
 </span>
 ```
 
-##### Stealth mode filter
+#### Stealth mode filter
 
 Include anywhere that contains content which should be hidden when the app is in stealth mode.
 
@@ -102,7 +102,7 @@ Include anywhere that contains content which should be hidden when the app is in
 {% endif %}
 ```
 
-##### Example
+###### Example
 
 ```html
 {%- for item in cart.items -%}
