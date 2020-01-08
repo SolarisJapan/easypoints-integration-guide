@@ -6,15 +6,17 @@
 
 The EasyPoints app can be found on the Shopify app store here: https://apps.shopify.com/easy-points
 
-Installing the app will automatically insert liquid, css, and javascript files into the theme which can be used to aid in the integration. Not all of the files need to be used.
+Installing the app will automatically insert Liquid, CSS, and JavaScript files into the theme which can be used to aid in the integration. Not all of the files need to be used.
 
 #### Select custom integration
 
-There will be a step during the onboarding process when selecting between the widget and the custom integration. Select custom integration. This will halt your progress through the onboarding. This is to avoid the merchant being charged before their integration is completed and the app functional. Once the integration is finished please request complete access to the app at team@lunaris.jp.
+There will be a step during the onboarding process when selecting between the widget and the custom integration. Select custom integration. This will halt your progress through the onboarding. This is to avoid the merchant being charged before their integration is completed and the app functional. Once the integration is finished please request complete access to the app by emailing team@lunaris.jp.
 
 ## Liquid Integration
 
-#### Load EasyPoints Redemption Form Liquid
+Please note that the automatically loaded theme snippets and files could be automatically re-uploaded by the app or patched for content in the future. For this reason it is strongly advised that custom integrations create new files that override the content of these default files and leave the originals unaltered. Breaking changes to JavaScript functions would not occur without notification.
+
+#### Load EasyPoints redemption form liquid
 
 Ensure that the content within "snippets/redemption_form.liquid" is loaded.
 
@@ -24,7 +26,7 @@ Ensure that the content within "snippets/redemption_form.liquid" is loaded.
 
 This snippet includes inputs, so it should be loaded outside any form elements on the page except for your EasyPoints redemption form. These inputs are hidden when given the above options. This is the recommended setup. The contents of the snippet can be turned into a form and submitted via JavaScript.
 
-#### Redemption Form Submission
+#### Redemption form submission
 
 The recommended method of submission is to create an html input element with the id `shown-point-value`. The value field of this element should be input by the user as the number of points they wish to redeem. A function to update the virtual form included in the previous step and submit is found in "assets/easy_points.js".
 
@@ -39,7 +41,7 @@ This function will also call `pointRedemptionValidation` and depending upon the 
 
 These are useful code segments for integrating with the EasyPoints JavaScript and script tags. Typically content within any spans will be overwritten, so the inside values should be viewed as defaults / placeholders.
 
-##### Applied Discount
+##### Applied discount
 
 Include anywhere that should display the currently applied discount.
 
@@ -47,7 +49,7 @@ Include anywhere that should display the currently applied discount.
 <span data-loyal-target="applied-discount">0</span>
 ```
 
-##### Point Balance
+##### Point balance
 
 Include anywhere that should display the user's current point balance.
 
@@ -55,7 +57,7 @@ Include anywhere that should display the user's current point balance.
 <span data-loyal-target="balance">-</span>
 ```
 
-##### Item Point Value
+##### Item point value
 
 Include anywhere that should display the point value of an item / product / variant. Insert the correct liquid variable as the value for `data-loyal-currency-cost`. Only the inner span's contents are overwritten.
 
@@ -65,7 +67,7 @@ Include anywhere that should display the point value of an item / product / vari
 </span>
 ```
 
-##### Item Point Value
+##### Stealth mode filter
 
 Include anywhere that contains content which should be hidden when the app is in stealth mode.
 
@@ -89,3 +91,19 @@ Include anywhere that contains content which should be hidden when the app is in
   </div>
 {% endfor %}
 ```
+
+## Design Guidelines Checklist
+
+These are suggestions for content that your custom EasyPoints integration may want to include visibly on an appropriate page. Some of them should only be visible if the app is out of stealth mode or if a customer is logged in.
+
+* Customer point balance
+* Item point value (in the product page and cart)
+* Currently applied discount
+* Cart point value (before and after discount)
+* Redemption form (redemption input, redemption button, max redeemable points)
+
+## Troubleshooting
+
+* Ensure EasyPoints' app proxy url is set to: "/apps/loyalty"
+* Confirm that EasyPoints' liquid snippet files are included at the end of the \<head\> of "layout/theme.liquid"
+* Confirm that "{% include 'redemption_form' %}" was added to the liquid
