@@ -80,7 +80,7 @@ Similar to form submission, this function should just be called by a user action
 
 ```javascript
 $("#reset-coupon-button").on("click", function() {
-  submitRedemptionForm();
+  submitResetForm();
 });
 ```
 
