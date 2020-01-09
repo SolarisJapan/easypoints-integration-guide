@@ -84,6 +84,10 @@ $("#reset-coupon-button").on("click", function() {
 });
 ```
 
+### Default behaviour
+
+If using \<input id="shown-point-value"\>, the applied discount (using `submitRedemptionForm()`) will automatically be inserted as the value after page refresh and the input will be disabled. If the discount is reset (using `submitResetForm()`), then the value and disabled attribute will not be updated.
+
 ## Snippets
 
 These are useful code segments for integrating with the EasyPoints JavaScript and script tags. Typically content within any spans will be overwritten, so the inside values should be viewed as defaults / placeholders.
@@ -155,3 +159,4 @@ These are suggestions for content that your custom EasyPoints integration may wa
 -   Ensure EasyPoints' app proxy url is set to: "/apps/loyalty"
 -   Confirm that EasyPoints' liquid snippet files are included at the end of the \<head\> of "layout/theme.liquid"
 -   Confirm that "{% include 'redemption_form' %}" was added to the liquid
+-   Ensure your custom files have been included in the theme
