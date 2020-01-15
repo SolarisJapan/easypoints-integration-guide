@@ -1,10 +1,18 @@
 # EasyPoints Integration Guide
 
+### Contents
+- [App Setup](#App-Setup)
+- [Liquid Integration](#Liquid-Integration)
+- [Snippets](#Snippets])
+- [Design Guidelines Checklist](#Design-Guidelines)
+- [Troubleshooting](#Troubleshooting)
+- [JavaScript Documentation](#JavaScript-Documentation)
+
 ## App Setup
 
 ### Install the EasyPoints app
 
-The EasyPoints app can be found on the Shopify app store here: <https://apps.shopify.com/easy-points>
+The EasyPoints app can be found on the Shopify app store [here](https://apps.shopify.com/easy-points).
 
 Installing the app will automatically insert Liquid, CSS, and JavaScript files into the theme which can be used to aid in the integration. Not all of the files need to be used.
 
@@ -160,3 +168,159 @@ These are suggestions for content that your custom EasyPoints integration may wa
 -   Confirm that EasyPoints' liquid snippet files are included at the end of the \<head\> of "layout/theme.liquid"
 -   Confirm that "{% include 'redemption_form' %}" was added to the liquid
 -   Ensure your custom files have been included in the theme
+
+## JavaScript Documentation
+
+This section provides some documentation for functions imported in "assets/easy_points.js" which may be useful for more complex integrations.
+
+###### function formatBigNumber(num)
+
+This function formats large numbers (or number string) by delimiting every three number long segment with a comma. It is not intended for use with floats are precise beyond 2 fractional decimal places.
+
+```
+formatBigNumber("$3219.54");
+"$3,219.54"
+```
+
+###### function pointRedemptionValidation()
+
+This function will ensure the number of points the customer is attempting to redeem is valid. Returns true if the following criteria are met:
+- greater than zero
+- less than or equal to their point balance
+- less than or equal to the maximum number of redeemable points for the cart items
+
+The maximum number of redeemable points exists on the page as `input#redemption-point-value` and was imported in "snippets/redemption_form.liquid".
+
+```
+// <input id="redemption-point-value" value="1000">
+// <input id="redemption-max-points" value="500">
+
+pointRedemptionValidation();
+false
+```
+
+###### function updateRedemptionForm()
+
+This function will assign the value of `<input id="shown-point-value">` to the value of `<input id="redemption-point-value">`, execute `pointRedemptionValidation()`, and then update class list of `<input id="shown-point-value">` according to its validity.
+
+```
+// <input id="shown-point-value" value="1000">
+// <input id="redemption-point-value" value="0">
+// <input id="redemption-max-points" value="500">
+
+updateRedemptionForm();
+// <input id="shown-point-value" class="invalid" value="1000">
+// <input id="redemption-point-value" value="1000">
+```
+
+```
+// <input id="shown-point-value" class="invalid" value="500">
+// <input id="redemption-point-value" value="1000">
+// <input id="redemption-max-points" value="500">
+
+updateRedemptionForm();
+// <input id="shown-point-value" value="500">
+// <input id="redemption-point-value" value="500">
+```
+
+###### function buildForm(action)
+
+This function will create a form which can be posted to the given action. It will be prepopulated with data from `div#point-redemption-form` imported in "snippets/redemption_form.liquid". The actions used by EasyPoints are:
+
+- "/apps/loyalty/redeem" - API endpoint for coupon creation
+- "/apps/loyalty/reset" - API endpoint for coupon deletion
+
+It is recommended to simply use `submitRedemptionForm()` or `submitResetForm()` depending on the use case, but this method can be employed for asynchronous implementations of EasyPoints.
+
+```
+var redemptionForm = buildForm("/apps/loyalty/redeem")
+redemptionXhr = new XMLHttpRequest();
+
+redemptionXhr.onreadystatechange = function(event) {
+  if (this.readyState == 4) {
+    // define success callback
+  }
+};
+redemptionXhr.open("POST", redemptionForm.action);
+var formData = new FormData(redemptionForm);
+redemptionXhr.send(formData);
+```
+
+###### function submitRedemptionForm()
+
+This function will use data from `div#point-redemption-form` imported in "snippets/redemption_form.liquid" to create and submit a form that redeems the customer's points for a coupon. This will also apply the coupon to the current checkout.
+
+```
+submitRedemptionForm();
+// Creates and submits a form that deletes the customer's current EasyPoints coupon
+```
+
+###### function updateDisplayedDiscount()
+
+This function will retrieve the value of `<input id="shown-point-value">`. This value will be stored in the session and given as the argument to `displayDiscount(int)` to then be executed.
+
+```
+// <input id="shown-point-value" value="500">
+updateDisplayedDiscount();
+
+// <span data-loyal-target="applied-discount">$5.00</span>
+```
+
+###### function submitResetForm()
+
+This function will use data from `div#point-redemption-form` imported in "snippets/redemption_form.liquid" to create and submit a form that deletes the customer's current EasyPoints coupon. This will also deactivate the coupon on Shopify's server.
+
+```
+submitResetForm();
+// Creates and submits a form that deletes the customer's current EasyPoints coupon
+```
+
+###### function animateButton(elementId, text)
+
+This function is meant to give the customer a sense of progress when creating a coupon. Provide the id of the element to animate and the text to display while animated.
+
+```
+animateButton("redeem-points-button", "Redeeming");
+// Button text cycles between the following repeatedly:
+// "Redeeming" -> "Redeeming." -> "Redeeming.." -> "Redeeming..."
+```
+
+###### function displayDiscount(int)
+
+This function takes an amount of points, stores it as the currently applied discount in the session (keys `appliedDiscount` & `appliedDiscountCurrency`). It will then call `displayAppliedDiscount()` to update the page to reflect this discount.
+
+```
+displayDiscount(500);
+// <input id="shown-point-value" value="500">
+// <span data-loyal-target="applied-discount">$5.00</span>
+```
+
+###### function displayAppliedDiscount()
+
+This function fetches the value under the key `appliedDiscount` from the session storage and displays it to the page using any of the spans as seen in the [Snippets section](#Snippets]). It will also override the value of `input#shown-point-value` to be the currently applied discount.
+
+```
+// 500 point discount currently applied
+
+displayAppliedDiscount();
+// <input id="shown-point-value" value="500">
+// <span data-loyal-target="applied-discount">$5.00</span>
+```
+
+###### function updatePointValueTargets()
+
+This function will use the values of `<span data-loyal-target="shop-point-rule-point-value">` and `<span data-loyal-target="shop-point-rule-currency-value">` to update all point value spans, as seen in the [Snippets section](#Snippets]).
+
+```
+// <input data-loyal-target="shop-point-rule-point-value" value="1">
+// <input data-loyal-target="shop-point-rule-currency-value" value="100">
+// <span data-loyal-target="point-value" data-loyal-currency-cost="10000">
+//   <span data-loyal-target="point-value-location"></span> points
+// </span>
+
+updatePointValueTargets();
+// <span data-loyal-target="point-value" data-loyal-currency-cost="200000">
+//   <span data-loyal-target="point-value-location">20</span> points
+// </span>
+
+```
