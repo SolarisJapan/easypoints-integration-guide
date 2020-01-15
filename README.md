@@ -3,8 +3,8 @@
 ### Contents
 - [App Setup](#App-Setup)
 - [Liquid Integration](#Liquid-Integration)
-- [Snippets](#Snippets])
-- [Design Guidelines Checklist](#Design-Guidelines)
+- [Snippets](#Snippets)
+- [Design Guidelines Checklist](#Design-Guidelines-Checklist)
 - [Troubleshooting](#Troubleshooting)
 - [JavaScript Documentation](#JavaScript-Documentation)
 
