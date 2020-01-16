@@ -7,6 +7,7 @@
 - [Design Guidelines Checklist](#Design-Guidelines-Checklist)
 - [Troubleshooting](#Troubleshooting)
 - [JavaScript Documentation](#JavaScript-Documentation)
+- [Advanced Integrations Checklist](#Advanced-Integrations-Checklist)
 
 ## App Setup
 
@@ -161,6 +162,7 @@ These are suggestions for content that your custom EasyPoints integration may wa
 -   Cart point value (before and after discount)
 -   Redemption form (redemption input, redemption button, max redeemable points)
 -   Reset form (locked redemption input, reset button)
+-   Disable buttons while waiting for completion of redemption or reset request
 
 ## Troubleshooting
 
@@ -324,3 +326,12 @@ updatePointValueTargets();
 // </span>
 
 ```
+
+## Advanced Integrations Checklist
+
+Advanced integrations are any which go beyond use of the snippets and example redemption submission buttons provided which cause a page refresh. After a page refresh any relevant fields should be automatically updated to match the current cart, but sometimes a different user experience is desired.
+
+Here are some things to consider:
+- `input#redemption-max-points` should be updated to match changes in discountable cart total
+- Disable the checkout button(s) and redeem/reset buttons until any asynchronous request completes to avoid duplicate requests
+- Reductions in cart total could cause currently applied discounts to be greater than the new total
