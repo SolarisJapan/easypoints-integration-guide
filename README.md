@@ -1,3 +1,3 @@
 # EasyPoints Integration Guide
 
-Please refer to the [Wiki page](/SolarisJapan/easypoints-integration-guide/wiki).
+Please refer to the [Wiki page](https://github.com/SolarisJapan/easypoints-integration-guide/wiki).
